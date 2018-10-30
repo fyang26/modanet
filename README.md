@@ -20,6 +20,20 @@ Each polygon is associated with a label from 13 meta fashion categories. The ann
 
 ModaNet is intended to serve an educational purpose by providing a benchmark annotation set for emerging computer vision research including **semantic segmentation**, **object detection**, **instance segmentation**, **polygon detection**, and etc.
 
+### Data
+
+After downloading the Paperdoll dataset, use the following sample script to obtain meta information for retrieving image data.
+```python
+db = sqlite3.connect('file:../paperdoll/data/chictopia/chictopia.sqlite3?mode=ro', uri=True)
+photos = pd.read_sql("""
+    SELECT
+        *,
+        'http://images2.chictopia.com' || path AS url
+    FROM photos
+    WHERE photos.post_id IS NOT NULL AND file_file_size IS NOT NULL
+""", con=db)
+```
+where `N` from `images{N}.chictopia.com` is one of `{1, 2, 3, 4}`.   
 
 ### Labels
 Each polygon (bounding box, segmentation mask) annotation is assigned to one of the following labels:
